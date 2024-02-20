@@ -44,10 +44,9 @@ def json_into_db(json_file, db):
         collection = db["authors"]
         for entry in data:
             author_id = collection.find_one({"fullname":entry['author']},{"_id":1})
-            print(author_id["_id"])
             if not author_id:
-                Authors(entry['author'],None,None,None).save()
-                author_id = db.Quotes.find({"fullname":entry['author']},{"_id":1})
+                Authors(fullname=entry['author'],born_date=None,born_location=None,description=None).save()
+                author_id = collection.find_one({"fullname":entry['author']},{"_id":1})
             Quotes(tags=entry['tags'],author=author_id,quote=entry['quote']).save()
 
 def search_by_tags(db):
